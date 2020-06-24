@@ -13,5 +13,6 @@ $sizes: ('xl', 50px),
 @each $modifier, $value in $sizes {
   .heading--#{$modifier} {
     font-size: $value;
+    line-height: 2;
   }
 }

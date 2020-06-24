@@ -13,6 +13,18 @@ import './filters'
 const httpLink = new HttpLink({
   uri: process.env.VUE_APP_API_URL
 })
+
+// const defaultOptions: DefaultOptions = {
+//   watchQuery: {
+//     fetchPolicy: 'no-cache',
+//     errorPolicy: 'ignore'
+//   },
+//   query: {
+//     fetchPolicy: 'no-cache',
+//     errorPolicy: 'all'
+//   }
+// }
+
 const apolloClient = new ApolloClient({
   link: httpLink,
   cache: new InMemoryCache()

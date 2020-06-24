@@ -4,10 +4,15 @@ import moment from 'moment'
 
 Vue.filter('format_date', function (val) {
   if (_.isNull(val) || _.isUndefined(val)) return ''
-  return moment(val).format('Y.MM.D')
+  return moment(val).format('Y.MM.DD')
 })
 
 Vue.filter('format_datetime', function (val) {
   if (_.isNull(val) || _.isUndefined(val)) return ''
-  return moment(val).format('Y-MM-D')
+  return moment(val).format('Y-MM-DD')
+})
+
+Vue.filter('format_comment_date', function (val) {
+  if (_.isNull(val) || _.isUndefined(val)) return ''
+  return moment().from(val)
 })

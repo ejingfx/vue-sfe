@@ -1,12 +1,24 @@
 <template>
   <div class="hero">
     <div class="hero__inner">
-      Hero
+      <div class="row">
+        <ul class="row">
+          <li
+            class="col-lg--4"
+            v-for="post in getPosts"
+            :key="post.id"
+          >
+            {{ post }}
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { GET_PAGINATED_POSTS } from '../../graphql'
+
 export default {
   name: 'hero',
   data () {
@@ -14,8 +26,19 @@ export default {
       posts: []
     }
   },
+  apollo: {
+    posts: {
+      query: GET_PAGINATED_POSTS,
+      variables: {
+        pagination: {
+          limit: 3,
+          offset: 0
+        }
+      }
+    }
+  },
   computed: {
-    getHeroPosts () { return this.posts }
+    getPosts () { return this.posts }
   }
 }
 </script>

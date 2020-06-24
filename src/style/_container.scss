@@ -5,6 +5,10 @@
   padding-left: 40px;
   padding-right: 40px;
   
+}
+
+//MODIFIER
+.container--grid {
   &:before {
     content: '';
     position: absolute;
@@ -13,6 +17,6 @@
     width: calc(100% - 80px);
     height: 100%;
     border: 1px solid red;
-    opacity: 0;
+    z-index: 2;
   }
 }

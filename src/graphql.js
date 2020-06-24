@@ -15,8 +15,9 @@ export const GET_POSTS = gql`
     }
   }
 `
-export const GET_HERO_POSTS = (pagination) => gql`
-  query Posts($pagination: pagination) {
+
+export const GET_PAGINATED_POSTS = gql`
+  query Posts($pagination: Pagination) {
     posts(pagination: $pagination) {
       id
       title
@@ -32,15 +33,18 @@ export const GET_HERO_POSTS = (pagination) => gql`
 `
 
 export const GET_POST = gql`
-  query Post($id: id) {
+  query Post($id: Int) {
     post (id: $id) {
       id
       title
+      image
+      content
       createdAt
       comments {
         id
         postId
         content
+        createdAt
       }
     }
   }

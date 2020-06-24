@@ -16,9 +16,11 @@
           </li>
         </ul>
       </div>
-
       <div class="news__cta">
-        <Button text="LOAD MORE" type="'button'"/>
+        <Button
+          text="LOAD MORE"
+          type="'button'"
+          @click.native="loadMore($event)" />
       </div>
     </div>
   </section>
@@ -28,7 +30,7 @@
 import ArticleCard from './ArticleCard'
 import Button from './Button'
 import { mapGetters } from 'vuex'
-import { GET_POSTS } from '../../graphql'
+import { GET_PAGINATED_POSTS } from '../../graphql'
 
 export default {
   name: 'news',
@@ -38,20 +40,36 @@ export default {
   },
   data () {
     return {
-      posts: []
+      posts: [],
+      pagination: {
+        limit: 6,
+        offset: 0
+      }
     }
   },
   apollo: {
-    posts () {
-      return {
-        query: GET_POSTS
+    posts: {
+      query: GET_PAGINATED_POSTS,
+      update: data => data.posts,
+      variables () {
+        return {
+          pagination: this.getPagination
+        }
       }
     }
   },
   methods: {
+    loadMore (event) {
+      const condition = true
+      event.preventDefault()
+      if (condition) {
+        this.pagination.offset += 6
+      }
+    }
   },
   computed: {
     getPosts () { return this.posts },
+    getPagination () { return this.pagination },
     ...mapGetters(['getAllPosts'])
   }
 }

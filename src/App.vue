@@ -21,3 +21,8 @@ export default {
 </script>
 
 <style lang="scss" src="./style/app.scss"></style>
+<style lang="scss" scoped>
+#app {
+  padding-top: 104px;
+}
+</style>
