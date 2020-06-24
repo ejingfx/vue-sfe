@@ -8,7 +8,15 @@
 
 <script>
 export default {
-  name: 'hero'
+  name: 'hero',
+  data () {
+    return {
+      posts: []
+    }
+  },
+  computed: {
+    getHeroPosts () { return this.posts }
+  }
 }
 </script>
 

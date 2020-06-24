@@ -28,7 +28,7 @@
 import ArticleCard from './ArticleCard'
 import Button from './Button'
 import { mapGetters } from 'vuex'
-import { GET_ALL_POSTS } from '../../graphql'
+import { GET_POSTS } from '../../graphql'
 
 export default {
   name: 'news',
@@ -42,13 +42,17 @@ export default {
     }
   },
   apollo: {
-    posts: {
-      query: GET_ALL_POSTS
+    posts () {
+      return {
+        query: GET_POSTS
+      }
     }
+  },
+  methods: {
   },
   computed: {
     getPosts () { return this.posts },
-    ...mapGetters(['getAllArticles'])
+    ...mapGetters(['getAllPosts'])
   }
 }
 </script>
