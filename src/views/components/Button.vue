@@ -1,5 +1,5 @@
 <template>
-  <button class="btn" :class="classes" :type="setType(type)">
+  <button class="btn" :class="modifier" :type="setType(type)">
     <span class="btn__icon"></span>
     <span class="btn__text">{{ text }}</span>
   </button>
@@ -8,7 +8,7 @@
 <script>
 export default {
   name: 'app-button',
-  props: ['classes', 'text', 'type', 'state'],
+  props: ['modifier', 'text', 'type', 'state'],
   methods: {
     setType (type) {
       if (typeof type === 'undefined' || type === '') return 'button'
@@ -48,7 +48,19 @@ export default {
 .btn__icon {
   display: inline-block;
 }
-
+.btn--fluid {
+  width: 100%;
+}
+.btn--basic {
+  display: inline-block;
+  background-color: transparent;
+  border: 0;
+  .btn__text {
+    font-family: $montserrat;
+    font-size: 18px;
+    color: $color-black;
+  }
+}
 $states: ('loading', transparentize($color-black, 0.2)),
   ('warning', $color-orange),
   ('info', $color-teal),

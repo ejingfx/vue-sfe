@@ -16,6 +16,7 @@
           </li>
         </ul>
       </div>
+
       <div class="news__cta">
         <Button
           text="LOAD MORE"
@@ -40,37 +41,44 @@ export default {
   },
   data () {
     return {
-      posts: [],
+      max: false,
       pagination: {
         limit: 6,
-        offset: 0
-      }
-    }
-  },
-  apollo: {
-    posts: {
-      query: GET_PAGINATED_POSTS,
-      update: data => data.posts,
-      variables () {
-        return {
-          pagination: this.getPagination
-        }
+        offset: 3
       }
     }
   },
   methods: {
     loadMore (event) {
-      const condition = true
       event.preventDefault()
-      if (condition) {
+      if (!this.getMax) {
         this.pagination.offset += 6
+        this.fetchPosts()
       }
+    },
+    async fetchPosts (init = false) {
+      await this.$apollo.query({
+        query: GET_PAGINATED_POSTS,
+        variables: {
+          pagination: this.getPagination
+        }
+      })
+        .then((response) => {
+          this.$store.dispatch('ADD_POSTS', response.data.posts)
+          if (!init && response.data.posts.length < 6) {
+            this.max = true
+          }
+        })
     }
   },
   computed: {
+    getMax () { return this.max },
     getPosts () { return this.posts },
     getPagination () { return this.pagination },
-    ...mapGetters(['getAllPosts'])
+    ...mapGetters(['getPosts'])
+  },
+  created () {
+    this.fetchPosts(true)
   }
 }
 </script>
