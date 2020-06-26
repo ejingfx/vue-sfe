@@ -3,9 +3,8 @@
     <Header
       @login="showLoginForm = true; if (showRegisterForm) { showRegisterForm = false }"
       @register="showRegisterForm = true; if (showLoginForm) { showLoginForm = false }"
-
-      @closeLoginForm="showLoginForm = false"
-      @closeRegisterForm="showRegisterForm = false"
+      @show="showForm()"
+      @close="closeForm()"
     />
     <router-view />
     <Footer />
@@ -52,6 +51,20 @@ export default {
     Modal,
     LoginForm,
     RegisterForm
+  },
+  methods: {
+    closeForm () {
+      this.showLoginForm = false
+      this.showRegisterForm = false
+    },
+    showForm () {
+      if (!this.showLoginForm) this.showLoginForm = true
+      console.log('adsfasdfa')
+    }
+  },
+  computed: {
+    getShowLoginForm () { return this.showLoginForm },
+    getShowRegisterForm () { return this.showRegisterForm }
   }
 }
 </script>

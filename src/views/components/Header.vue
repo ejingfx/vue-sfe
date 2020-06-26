@@ -11,14 +11,23 @@
       </div>
 
       <div class="header__right">
+        {{ getShowModal }}
+        <button
+          class="header__btn"
+          type="button"
+          v-if="getCredentials.isAuth"
+          @click="logout()"
+        >
+          <span class="header__btn-text">LOGOUT</span>
+        </button>
+
         <button
           class="header__btn"
           type="button"
           v-if="!getCredentials.isAuth"
-          @click="toggle()"
+          @click="toggle($event); if (showModal) btnText = 'CLOSE'"
         >
-          <span v-if="!getShowLoginForm" class="header__btn-text">LOGIN</span>
-          <span v-else class="header__btn-text">CLOSE</span>
+          <span class="header__btn-text">{{ getShowModal }}</span>
         </button>
       </div>
     </div>
@@ -36,17 +45,23 @@ export default {
   },
   data () {
     return {
-      showModal: false
+      showModal: false,
+      btnText: 'LOGIN'
     }
   },
   methods: {
-    toggle () {
+    logout () {
+      // TODO
+      console.log('logout')
+    },
+    toggle (e) {
       if (this.showModal) {
-        this.showModal = false
-        return this.$emit('closeLoginForm')
+        this.showModoal = false
+        this.btnText = 'LOGIN'
+        return this.$emit('close', e)
       } else {
         this.showModal = true
-        return this.$emit('login')
+        return this.$emit('show', e)
       }
     }
   },
@@ -58,7 +73,8 @@ export default {
         user: this.getUser
       }
     },
-    getShowLoginForm () { return this.showModal }
+    getShowModal () { return this.showModal },
+    getBtnText () { return this.btnText }
   }
 }
 </script>
