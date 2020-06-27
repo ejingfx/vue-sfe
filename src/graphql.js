@@ -49,3 +49,15 @@ export const GET_POST = gql`
     }
   }
 `
+
+export const AUTHENTICATE = gql`
+  mutation ($email: String!, $password: String!) {
+    authenticate(email: $email, password: $password)
+  }
+`
+
+export const REGISTER = gql`
+  mutation ($email: String!, $password: String!) {
+    register(email: $email, password: $password)
+  }
+`

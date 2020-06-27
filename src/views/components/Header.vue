@@ -24,7 +24,7 @@
           class="header__btn"
           type="button"
           v-if="!getCredentials.isAuth"
-          @click="toggle($event);"
+          @click="toggle();"
         >
           <span class="header__btn-text">{{ getBtnText }}</span>
         </button>
@@ -50,18 +50,19 @@ export default {
   },
   methods: {
     logout () {
-      // TODO
-      console.log('logout')
+      this.$store.dispatch('LOGOUT')
+      this.btnText = 'LOGIN'
+      this.showModal = false
     },
-    toggle (e) {
+    toggle () {
       if (!this.showModal) {
         this.showModal = true
         this.btnText = 'CLOSE'
-        return this.$emit('show', e)
+        return this.$emit('show')
       } else {
         this.showModal = false
         this.btnText = 'LOGIN'
-        return this.$emit('close', e)
+        return this.$emit('close')
       }
     }
   },
@@ -98,7 +99,6 @@ export default {
   background-color: #fff;
   padding: 35px 0;
   z-index: $z-max + 3;
-  border-bottom: 1px solid red;
 }
 .header__left {
   float: left;

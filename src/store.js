@@ -19,7 +19,7 @@ export default new Vuex.Store({
   },
   actions: {
     async AUTHENTICATE (context, data) {
-      context.commit('auth', await data)
+      context.commit('authenticate', await data)
     },
     async ADD_HERO_POSTS (context, data) {
       context.commit('addHeroPosts', await data)
@@ -32,6 +32,9 @@ export default new Vuex.Store({
     },
     async INIT_USER (context, data) {
       context.commit('initUser', await data)
+    },
+    async LOGOUT (context) {
+      context.commit('logout')
     }
   },
   mutations: {
@@ -50,6 +53,10 @@ export default new Vuex.Store({
     },
     initUser (state, payload) {
       state.user = payload
+    },
+    logout (state) {
+      state.isAuth = false
+      state.user = {}
     }
   }
 })

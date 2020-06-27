@@ -53,6 +53,7 @@
 import Input from './Input'
 import Button from './Button'
 import { email, minLength, required } from 'vuelidate/lib/validators'
+import { AUTHENTICATE } from '../../graphql'
 
 export default {
   name: 'login-form',
@@ -88,11 +89,26 @@ export default {
         'input--dirty': validation.$dirty
       }
     },
-    submit (event) {
+    async submit (event) {
       event.preventDefault()
 
       if (!this.$v.$invalid) {
-        console.log('submit')
+        this.$apollo.mutate({
+          mutation: AUTHENTICATE,
+          variables: {
+            email: this.form.email,
+            password: this.form.password
+          }
+        })
+          .then((res) => {
+            console.log(res.data)
+            const data = {
+              email: this.form.email,
+              token: res.data.authenticate
+            }
+            this.$store.dispatch('AUTHENTICATE', data)
+            this.$emit('close')
+          })
       }
     }
   },

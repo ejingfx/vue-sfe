@@ -58,6 +58,7 @@
 import Input from './Input'
 import Button from './Button'
 import { email, minLength, required, sameAs } from 'vuelidate/lib/validators'
+import { REGISTER, AUTHENTICATE } from '../../graphql'
 
 export default {
   name: 'login-form',
@@ -99,11 +100,42 @@ export default {
         'input--dirty': validation.$dirty
       }
     },
+    login (email, password) {
+      this.$apollo.mutate({
+        mutation: AUTHENTICATE,
+        variables: {
+          email,
+          password
+        }
+      })
+        .then((res) => {
+          const data = {
+            email: this.form.email,
+            token: res.data.authenticate
+          }
+          this.$store.dispatch('AUTHENTICATE', data)
+          this.$emit('close')
+        })
+    },
     submit (event) {
       event.preventDefault()
 
       if (!this.$v.$invalid) {
         console.log('submit')
+
+        this.$apollo.mutate({
+          mutation: REGISTER,
+          variables: {
+            email: this.form.email,
+            password: this.form.password
+          }
+        })
+          .then((res) => {
+            if (res.data.register) this.login(this.form.email, this.form.password)
+          })
+          .catch((err) => {
+            console.log('error', err)
+          })
       }
     }
   }

@@ -15,6 +15,7 @@
       <LoginForm
         slot="form"
         @register="showRegisterForm = true; if (showLoginForm) { showLoginForm = false }"
+        @close="closeForm()"
       />
     </Modal>
 
@@ -24,6 +25,7 @@
       <RegisterForm
         slot="form"
         @login="showLoginForm = true; if (showRegisterForm) { showRegisterForm = false }"
+        @close="closeForm()"
        />
     </Modal>
   </div>
