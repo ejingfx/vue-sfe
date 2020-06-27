@@ -5,6 +5,7 @@ import store from './store'
 import Vue2Filters from 'vue2-filters'
 import mixins from './mixins'
 import VueApollo from 'vue-apollo'
+import Vuelidate from 'vuelidate'
 import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
@@ -36,6 +37,7 @@ const apolloProvider = new VueApollo({
 Vue.config.productionTip = false
 Vue.use(VueApollo)
 Vue.use(Vue2Filters)
+Vue.use(Vuelidate)
 Vue.use(mixins)
 
 new Vue({

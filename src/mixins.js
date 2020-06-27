@@ -15,5 +15,11 @@ export default {
         }
       }
     }
+    // formModifier (validation) {
+    //   return {
+    //     'input--error': validation.$error,
+    //     'input--dirty': validation.$dirty
+    //   }
+    // }
   }
 }

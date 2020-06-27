@@ -1,5 +1,11 @@
 <template>
-  <form class="form" action="" method="post" novalidate @submit.prevent="$event.preventDefault()">
+  <form
+    class="form"
+    action=""
+    method="post"
+    novalidate
+    @submit.prevent="submit()"
+  >
     <div class="form__container">
       <div class="form__block">
         <h2 class="heading heading--md">LOGIN</h2>
@@ -10,6 +16,9 @@
           label="email"
           type="email"
           name="email"
+          :modifier="formModifier($v.form.email)"
+          v-model.trim="$v.form.email.$model"
+          @blur="$v.form.email.$touch()"
         />
       </div>
 
@@ -18,6 +27,9 @@
           label="password"
           type="password"
           name="password"
+          :modifier="formModifier($v.form.password)"
+          v-model.trim="$v.form.password.$model"
+          @blur="$v.form.password.$touch()"
         />
       </div>
 
@@ -40,6 +52,7 @@
 <script>
 import Input from './Input'
 import Button from './Button'
+import { email, minLength, required } from 'vuelidate/lib/validators'
 
 export default {
   name: 'login-form',
@@ -50,20 +63,45 @@ export default {
   },
   data () {
     return {
-      test: '',
       form: {
         email: '',
         password: ''
       }
     }
   },
-  methods: {
-    submit (event) {
-      event.preventDefault()
+  validations: {
+    form: {
+      email: {
+        required,
+        email
+      },
+      password: {
+        required,
+        minLength: minLength(3)
+      }
     }
   },
-  computed: {
-    getTest () { return this.test }
+  methods: {
+    formModifier (validation) {
+      return {
+        'input--error': validation.$error,
+        'input--dirty': validation.$dirty
+      }
+    },
+    submit (event) {
+      event.preventDefault()
+
+      if (!this.$v.$invalid) {
+        console.log('submit')
+      }
+    }
+  },
+  mounted () {
+    document.addEventListener('keydown', (e) => {
+      if (e.keyCode === 27) {
+        this.$emit('close')
+      }
+    })
   }
 }
 </script>

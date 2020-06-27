@@ -10,6 +10,9 @@
           label="email"
           type="email"
           name="email"
+          :modifier="formModifier($v.form.email)"
+          v-model.trim="$v.form.email.$model"
+          @blur="$v.form.email.$touch()"
         />
       </div>
 
@@ -18,6 +21,9 @@
           label="password"
           type="password"
           name="password"
+          :modifier="formModifier($v.form.password)"
+          v-model.trim="$v.form.password.$model"
+          @blur="$v.form.password.$touch()"
         />
       </div>
 
@@ -25,7 +31,10 @@
         <ConfirmInput
           label="confirm password"
           type="password"
-          name="confirm password"
+          name="confirm"
+          :modifier="formModifier($v.form.confirm)"
+          v-model.trim="$v.form.confirm.$model"
+          @blur="$v.form.confirm.$touch()"
         />
       </div>
 
@@ -48,6 +57,7 @@
 <script>
 import Input from './Input'
 import Button from './Button'
+import { email, minLength, required, sameAs } from 'vuelidate/lib/validators'
 
 export default {
   name: 'login-form',
@@ -61,13 +71,40 @@ export default {
     return {
       form: {
         email: '',
+        confirm: '',
         password: ''
       }
     }
   },
+  validations: {
+    form: {
+      email: {
+        required,
+        email
+      },
+      password: {
+        required,
+        minLength: minLength(3)
+      },
+      confirm: {
+        required,
+        sameAsPassword: sameAs('password')
+      }
+    }
+  },
   methods: {
+    formModifier (validation) {
+      return {
+        'input--error': validation.$error,
+        'input--dirty': validation.$dirty
+      }
+    },
     submit (event) {
       event.preventDefault()
+
+      if (!this.$v.$invalid) {
+        console.log('submit')
+      }
     }
   }
 }

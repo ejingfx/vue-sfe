@@ -59,7 +59,6 @@ export default {
     },
     showForm () {
       if (!this.showLoginForm) this.showLoginForm = true
-      console.log('adsfasdfa')
     }
   },
   computed: {

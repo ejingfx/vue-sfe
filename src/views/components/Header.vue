@@ -11,7 +11,6 @@
       </div>
 
       <div class="header__right">
-        {{ getShowModal }}
         <button
           class="header__btn"
           type="button"
@@ -25,9 +24,9 @@
           class="header__btn"
           type="button"
           v-if="!getCredentials.isAuth"
-          @click="toggle($event); if (showModal) btnText = 'CLOSE'"
+          @click="toggle($event);"
         >
-          <span class="header__btn-text">{{ getShowModal }}</span>
+          <span class="header__btn-text">{{ getBtnText }}</span>
         </button>
       </div>
     </div>
@@ -55,13 +54,14 @@ export default {
       console.log('logout')
     },
     toggle (e) {
-      if (this.showModal) {
-        this.showModoal = false
+      if (!this.showModal) {
+        this.showModal = true
+        this.btnText = 'CLOSE'
+        return this.$emit('show', e)
+      } else {
+        this.showModal = false
         this.btnText = 'LOGIN'
         return this.$emit('close', e)
-      } else {
-        this.showModal = true
-        return this.$emit('show', e)
       }
     }
   },
@@ -75,6 +75,15 @@ export default {
     },
     getShowModal () { return this.showModal },
     getBtnText () { return this.btnText }
+  },
+  mounted () {
+    document.addEventListener('keydown', (e) => {
+      if (this.showModal && e.keyCode === 27) {
+        this.showModal = false
+        this.btnText = 'LOGIN'
+        this.$emit('close')
+      }
+    })
   }
 }
 </script>
