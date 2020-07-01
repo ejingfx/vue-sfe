@@ -45,6 +45,7 @@
       </ul>
 
       <div class="post__comment-form">
+        <CommentForm />
       </div>
 
     </div>
@@ -53,6 +54,7 @@
 
 <script>
 import Comment from './Comment'
+import CommentForm from './CommentForm'
 import _ from 'lodash'
 import { mapGetters } from 'vuex'
 
@@ -60,7 +62,8 @@ export default {
   name: 'post-view',
   props: ['post'],
   components: {
-    Comment
+    Comment,
+    CommentForm
   },
   methods: {
     isNull (data) {
@@ -74,4 +77,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.post__comment-form {
+  padding-bottom: 150px;
+}
 </style>

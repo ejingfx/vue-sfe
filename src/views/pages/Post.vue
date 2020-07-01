@@ -4,7 +4,7 @@
 
     <div class="post__body">
       <div class="container">
-        <PostView v-if="getEdit" :post="getPost" @toggle="toggle()" />
+        <PostView v-if="!getEdit" :post="getPost" @toggle="toggle()" />
         <PostForm v-else :post="getPost" @toggle="toggle()" @cancel="cancel()" @save="save()"/>
       </div>
     </div>

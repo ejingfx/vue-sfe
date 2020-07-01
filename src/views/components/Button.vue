@@ -61,6 +61,10 @@ export default {
     color: $color-black;
   }
 }
+.btn--comment-submit {
+  min-width: 210px;
+}
+
 $states: ('loading', transparentize($color-black, 0.2)),
   ('warning', $color-orange),
   ('info', $color-teal),

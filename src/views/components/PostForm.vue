@@ -76,10 +76,7 @@
       </ul>
 
       <div class="post__comment-form">
-      <pre>
-{{ post }}
-{{ $v.form }}
-      </pre>
+        <CommentForm />
       </div>
 
     </div>
@@ -89,6 +86,7 @@
 <script>
 import _ from 'lodash'
 import Comment from './Comment'
+import CommentForm from './CommentForm'
 import { mapGetters } from 'vuex'
 // import { required } from 'vuelidate/lib/validators'
 import { UPDATE } from '../../graphql'
@@ -97,7 +95,8 @@ export default {
   name: 'post-form',
   props: ['post', 'edit'],
   components: {
-    Comment
+    Comment,
+    CommentForm
   },
   data () {
     return {

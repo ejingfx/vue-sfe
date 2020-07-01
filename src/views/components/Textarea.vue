@@ -1,25 +1,17 @@
 <template>
-  <label
-    class="input"
+  <textarea
+    class="textarea__tag"
     :class="modifier"
-    :for="label"
-  >
-    <span class="textarea__label">{{ label | capitalize }}</span>
-    <input
-      class="textarea__tag"
-      :type="type"
-      :id="name"
-      :name="name"
-      v-bind:value="value"
-      v-on:input="$emit('input', $event.target.value)"
-    >
-  </label>
+    :id="name"
+    :name="name"
+    v-bind:value="value"
+    v-on:input="$emit('input', $event.target.value)"
+  ></textarea>
 </template>
 
 <script>
-export default {
-  name: 'form-textarea',
-  props: ['modifier', 'type', 'label', 'name', 'value']
+export default { name: 'form-textarea',
+  props: ['modifier', 'name', 'value']
 }
 </script>
 
@@ -49,20 +41,30 @@ export default {
 }
 //MODIFIER
 .textarea--error {
-  span {
-    color: $color-red;
-  }
-  .textarea__tag {
-    border-color: $color-red;
-    color: $color-red;
+  border-color: $color-red;
+  color: $color-red;
+}
+.textarea--comment-form {
+  font-family: $montserrat;
+  font-size: 19px;
+  font-weight: 300;
+  line-height: 1.65;
+  letter-spacing: 0.1em;
+  min-height: 200px;
+  padding: 40px;
+  color: $color-black;
+
+  &::placeholder {
+    font-size: 18px;
+    font-style: italic;
+    color: transparentize($color-black, 0.5);
   }
 }
 .textarea--post-form {
-  .textarea__tag {
-    font-size: 40px;
-    font-weight: 700;
-    line-height: 1.65;
-    letter-spacing: 0.1em;
-  }
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.65;
+  letter-spacing: 0.1em;
+  min-height: 394px;
 }
 </style>
