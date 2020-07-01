@@ -7,29 +7,32 @@ import mixins from './mixins'
 import VueApollo from 'vue-apollo'
 import Vuelidate from 'vuelidate'
 import { ApolloClient } from 'apollo-client'
+import { ApolloLink } from 'apollo-link'
 import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import './filters'
+const ls = window.localStorage
 
 const httpLink = new HttpLink({
   uri: process.env.VUE_APP_API_URL
 })
 
-// const defaultOptions: DefaultOptions = {
-//   watchQuery: {
-//     fetchPolicy: 'no-cache',
-//     errorPolicy: 'ignore'
-//   },
-//   query: {
-//     fetchPolicy: 'no-cache',
-//     errorPolicy: 'all'
-//   }
-// }
+const authLink = new ApolloLink((operation, forward) => {
+  const token = JSON.parse(ls.getItem('sfe')).user.token
+  console.log('token', token, operation)
+  operation.setContext({
+    headers: {
+      authorization: token ? `Bearer ${token}` : ''
+    }
+  })
+  return forward(operation)
+})
 
 const apolloClient = new ApolloClient({
-  link: httpLink,
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache()
 })
+
 const apolloProvider = new VueApollo({
   defaultClient: apolloClient
 })

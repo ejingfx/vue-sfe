@@ -1,6 +1,6 @@
 <template>
   <article class="article-card">
-    <a :href="`/post/${post.id}`" class="article-card__link">
+    <a :href="`/${post.id}`" class="article-card__link">
       <div class="article-card__inner clearfix">
         <div class="article-card__thumb">
           <div :style="showPlaceholder(post.image)"></div>

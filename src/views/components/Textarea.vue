@@ -4,9 +4,9 @@
     :class="modifier"
     :for="label"
   >
-    <span v-if="getLabel !== ''" class="input__label">{{ label | capitalize }}</span>
+    <span class="textarea__label">{{ label | capitalize }}</span>
     <input
-      class="input__tag"
+      class="textarea__tag"
       :type="type"
       :id="name"
       :name="name"
@@ -17,19 +17,9 @@
 </template>
 
 <script>
-import _ from 'lodash'
-
 export default {
-  name: 'form-input',
-  props: ['modifier', 'type', 'label', 'name', 'value'],
-  computed: {
-    getLabel () {
-      if (_.isNull(this.label) || _.isUndefined(this.label)) {
-        return ''
-      }
-      return this.label
-    }
-  }
+  name: 'form-textarea',
+  props: ['modifier', 'type', 'label', 'name', 'value']
 }
 </script>
 
@@ -38,7 +28,7 @@ export default {
   display: block;
   width: 100%;
 }
-.input__label {
+.textarea__label {
   display: inline-block;
   font-family: $montserrat;
   font-weight: 300;
@@ -47,7 +37,7 @@ export default {
   margin-bottom: 5px;
   cursor: pointer;
 }
-.input__tag {
+.textarea__tag {
   display: block;
   width: 100%;
   box-sizing: border-box;
@@ -58,17 +48,17 @@ export default {
   outline: none;
 }
 //MODIFIER
-.input--error {
+.textarea--error {
   span {
     color: $color-red;
   }
-  .input__tag {
+  .textarea__tag {
     border-color: $color-red;
     color: $color-red;
   }
 }
-.input--post-form {
-  .input__tag {
+.textarea--post-form {
+  .textarea__tag {
     font-size: 40px;
     font-weight: 700;
     line-height: 1.65;

@@ -30,20 +30,20 @@ export default new Vuex.Store({
     async CREATE_POST (context, data) {
       context.commit('createPost', await data)
     },
-    async INIT_USER (context, data) {
-      context.commit('initUser', await data)
+    async INIT (context, data) {
+      context.commit('init', await data)
     },
-    async LOGOUT (context) {
-      context.commit('logout')
+    async LOGOUT (context, data) {
+      context.commit('logout', await data)
     }
   },
   mutations: {
     authenticate (state, payload) {
-      state.user = payload
-      state.isAuth = true
+      state.isAuth = payload.isAuth
+      state.user = payload.user
     },
     addHeroPosts (state, payload) {
-      state.initHeroPosts.push(...payload)
+      state.heroPosts.push(...payload)
     },
     addPosts (state, payload) {
       state.posts.push(...payload)
@@ -51,12 +51,13 @@ export default new Vuex.Store({
     createPost (state, payload) {
       state.posts.push(payload)
     },
-    initUser (state, payload) {
-      state.user = payload
+    init (state, payload) {
+      state.isAuth = payload.isAuth
+      state.user = payload.user
     },
-    logout (state) {
-      state.isAuth = false
-      state.user = {}
+    logout (state, payload) {
+      state.isAuth = payload.isAuth
+      state.user = payload.user
     }
   }
 })

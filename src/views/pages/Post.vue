@@ -4,97 +4,71 @@
 
     <div class="post__body">
       <div class="container">
-        <div class="post__actions clearfix"></div>
-
-        <div class="post__heading clearfix">
-          <time class="post__date" :datetime="getPost.createdAt | format_datetime">{{ getPost.createdAt | format_date }}</time>
-          <h1 class="post__title">{{ getPost.title }}</h1>
-        </div>
-
-        <div
-          class="post__image"
-          v-if="!isNull(post.image)"
-        >
-          <div :style="{ backgroundImage: `url(${post.image})` }"></div>
-        </div>
-
-        <div class="post__content">
-          {{ getPost.content }}
-        </div>
-
-        <div class="post__footer">
-          <h2 class="heading heading--xl">COMMENT</h2>
-
-          <ul class="post__comment-list">
-            <li
-              class="post__comment--item"
-              v-for="comment in getPost.comments"
-              :key="comment.id"
-            >
-              <Comment :comment="comment">
-                <h3 slot="content" class="comment__content">{{ comment.content }}</h3>
-              </Comment>
-            </li>
-          </ul>
-
-          <div class="post__comment-form">
-          </div>
-
-        </div>
+        <PostView v-if="getEdit" :post="getPost" @toggle="toggle()" />
+        <PostForm v-else :post="getPost" @toggle="toggle()" @cancel="cancel()" @save="save()"/>
       </div>
     </div>
+
   </div>
 </template>
 
 <script>
 import Breadcrumb from '../components/Breadcrumb'
-import Comment from '../components/Comment'
-import _ from 'lodash'
+import PostForm from '../components/PostForm'
+import PostView from '../components/PostView'
 import { GET_POST } from '../../graphql'
 
 export default {
   name: 'post',
   components: {
     Breadcrumb,
-    Comment
+    PostView,
+    PostForm
   },
   data () {
     return {
+      edit: false,
       post: {},
       slugs: []
     }
   },
-  apollo: {
-    post: {
-      query: GET_POST,
-      update: data => data.post,
-      variables () {
-        return {
+  methods: {
+    async fetchPost () {
+      await this.$apollo.query({
+        query: GET_POST,
+        variables: {
           id: parseInt(this.$route.params.id)
         }
+      })
+        .then((res) => {
+          this.post = res.data.post
+          this.slugs = [{ url: res.data.post.id, text: res.data.post.title }]
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    toggle () {
+      if (!this.edit) {
+        this.edit = true
+      } else {
+        this.edit = false
       }
-    }
-  },
-  watch: {
-    post () {
-      console.log('change', this.getPost)
-      const slugs = [
-        {
-          url: '#',
-          text: this.getPost.title
-        }
-      ]
-      this.slugs.push(...slugs)
-    }
-  },
-  methods: {
-    isNull (data) {
-      return _.isNull(data) || data === ''
+    },
+    cancel () {
+      console.log('cancel')
+    },
+    save () {
+      console.log('save')
     }
   },
   computed: {
+    getEdit () { return this.edit },
     getPost () { return this.post },
     getSlugs () { return this.slugs }
+  },
+  created () {
+    this.fetchPost()
   }
 }
 </script>
@@ -128,26 +102,5 @@ export default {
 }
 .post__body {
   padding-top: 60px;
-}
-.post__actions {
-  display: block;
-  min-height: 30px;
-}
-.post__heading {
-  padding-top: 30px;
-  padding-bottom: 12px;
-}
-.post__title {
-  font-size: 40px;
-  font-weight: 700;
-  line-height: 1.65;
-  letter-spacing: 0.1em;
-}
-.post__footer-title {
-  font-family: $montserrat;
-  font-size: 40px;
-  font-weight: 700;
-  line-height: 1.65;
-  letter-spacing: 0.1em;
 }
 </style>

@@ -54,6 +54,7 @@ import Input from './Input'
 import Button from './Button'
 import { email, minLength, required } from 'vuelidate/lib/validators'
 import { AUTHENTICATE } from '../../graphql'
+const ls = window.localStorage
 
 export default {
   name: 'login-form',
@@ -101,11 +102,15 @@ export default {
           }
         })
           .then((res) => {
-            console.log(res.data)
             const data = {
-              email: this.form.email,
-              token: res.data.authenticate
+              isAuth: true,
+              user: {
+                email: this.form.email,
+                token: res.data.authenticate
+              }
             }
+            console.log('', res.data)
+            ls.setItem('sfe', JSON.stringify(data))
             this.$store.dispatch('AUTHENTICATE', data)
             this.$emit('close')
           })

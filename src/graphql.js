@@ -61,3 +61,20 @@ export const REGISTER = gql`
     register(email: $email, password: $password)
   }
 `
+
+export const UPDATE = gql`
+  mutation ($post: PostInput) {
+    updatePost(post: $post) {
+      id
+      title
+      content
+      createdAt
+      comments {
+        id
+        postId
+        content
+        createdAt
+      }
+    }
+  }
+`

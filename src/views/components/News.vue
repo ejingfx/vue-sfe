@@ -1,7 +1,19 @@
 <template>
   <section class="news">
     <div class="news__container container">
-      <h2 class="heading heading--xl">NEWS</h2>
+      <div class="news__heading clearfix">
+        <div class="news__heading-left">
+          <h2 class="news__title heading heading--xl">NEWS</h2>
+        </div>
+
+        <div class="news__heading-right">
+          <router-link
+            v-if="getIsAuth"
+            to="/new" class="news__btn" type="button">
+            <span class="news__btn-text">Create New Post</span>
+          </router-link>
+        </div>
+      </div>
 
       <div class="news__list">
         <ul class="row news__list-inner">
@@ -72,10 +84,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['getPosts', 'getIsAuth']),
     getMax () { return this.max },
-    getPosts () { return this.posts },
-    getPagination () { return this.pagination },
-    ...mapGetters(['getPosts'])
+    getPagination () { return this.pagination }
   },
   created () {
     this.fetchPosts(true)
@@ -100,5 +111,33 @@ export default {
   margin: 0 auto;
   padding: 50px 0;
   text-align: center;
+}
+.news__title {
+  float: left;
+  line-height: 1;
+}
+.news__heading {
+  display: block;
+  padding: 103px 0 70px;
+}
+.news__heading-left {
+  float: left;
+}
+.news__heading-right {
+  float: right;
+  padding-top: 12px;
+}
+.news__btn { display: inline-block;
+  background-color: transparent;
+  border: 0;
+  outline: none;
+  text-decoration: none;
+}
+.news__btn-text {
+  font-family: $montserrat;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: $color-black;
 }
 </style>

@@ -49,6 +49,7 @@ export default {
   vertical-align: middle;
   width: 100%;
   height: 100vh;
+  border: 1px solid red;
 }
 .hero__inner {
   display: table-cell;

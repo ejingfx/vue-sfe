@@ -14,8 +14,8 @@
         <button
           class="header__btn"
           type="button"
-          v-if="getCredentials.isAuth"
           @click="logout()"
+          v-if="getIsAuth"
         >
           <span class="header__btn-text">LOGOUT</span>
         </button>
@@ -23,8 +23,8 @@
         <button
           class="header__btn"
           type="button"
-          v-if="!getCredentials.isAuth"
           @click="toggle();"
+          v-else
         >
           <span class="header__btn-text">{{ getBtnText }}</span>
         </button>
@@ -36,6 +36,7 @@
 <script>
 import Logo from '../components/Logo'
 import { mapGetters } from 'vuex'
+const ls = window.localStorage
 
 export default {
   name: 'app-header',
@@ -50,9 +51,11 @@ export default {
   },
   methods: {
     logout () {
-      this.$store.dispatch('LOGOUT')
+      const payload = { isAuth: false, user: {} }
+      this.$store.dispatch('LOGOUT', payload)
       this.btnText = 'LOGIN'
       this.showModal = false
+      ls.setItem('sfe', JSON.stringify({ isAuth: false, user: {} }))
     },
     toggle () {
       if (!this.showModal) {

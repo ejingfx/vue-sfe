@@ -16,7 +16,7 @@ export default {
 .comment {
   display: block;
   background-color: $color-light-grey;
-  padding: 32px 42px 52px;;
+  padding: 50px 42px 52px;;
   margin-bottom: 50px;
 }
 .comment__content {
