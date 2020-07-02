@@ -19,7 +19,7 @@ const httpLink = new HttpLink({
 
 const authLink = new ApolloLink((operation, forward) => {
   const token = JSON.parse(ls.getItem('sfe')).user.token
-  console.log('token', token, operation)
+  // console.log('token', token, operation)
   operation.setContext({
     headers: {
       authorization: token ? `Bearer ${token}` : ''

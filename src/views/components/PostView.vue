@@ -45,7 +45,10 @@
       </ul>
 
       <div class="post__comment-form">
-        <CommentForm :id="post.id"/>
+        <CommentForm
+          :id="post.id"
+          @addComment="$emit('addComment')"
+        />
       </div>
 
     </div>

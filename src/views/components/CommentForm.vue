@@ -3,7 +3,7 @@
     class="comment-form"
     action="/"
     novalidate
-    @submit.prevent="$emit('addComment'); submit($event)"
+    @submit.prevent="submit($event)"
   >
     <div class="comment-form__block">
       <Textarea
@@ -30,7 +30,7 @@
 import Textarea from './Textarea'
 import Button from './Button'
 import { required } from 'vuelidate/lib/validators'
-import { ADD_COMMENT, GET_POST } from '../../graphql'
+import { ADD_COMMENT } from '../../graphql'
 
 export default {
   name: 'comment-form',
@@ -65,8 +65,8 @@ export default {
         'textarea--comment-form textarea--dirty': validation.$dirty
       }
     },
-    addComment () {
-      this.$apollo.mutate({
+    async addComment () {
+      await this.$apollo.mutate({
         mutation: ADD_COMMENT,
         variables: {
           postId: this.getForm.postId,
@@ -74,20 +74,8 @@ export default {
         }
       })
         .then((res) => {
-          console.log('addComment', res.data)
-          this.updateStore()
-        })
-    },
-    updateStore () {
-      this.$apollo.query({
-        query: GET_POST,
-        variables: {
-          id: this.getForm.postId
-        }
-      })
-        .then((res) => {
-          console.log('updateStore', res.data.post)
-          this.$store.dispatch('UPDATE_POST', res.data.post)
+          this.$emit('addComment')
+          this.form.content = ''
         })
     },
     submit (e) {

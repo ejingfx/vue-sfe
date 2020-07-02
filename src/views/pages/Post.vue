@@ -4,8 +4,8 @@
 
     <div class="post__body">
       <div class="container">
-        <PostView v-if="!getEdit" :post="getPost" @toggle="toggle()" />
-        <PostForm v-else :post="getPost" @toggle="toggle()" @cancel="cancel()" @save="save()"/>
+        <PostView v-if="!getEdit" :post="getPost" @toggle="toggle()" @addComment="fetchPost()" />
+        <PostForm v-else :post="getPost" @toggle="toggle()" @addComment="fetchPost()" @save="save()" @cancel="edit = false"/>
       </div>
     </div>
 
@@ -28,6 +28,7 @@ export default {
   data () {
     return {
       edit: false,
+      init: {},
       post: {},
       slugs: []
     }
@@ -36,6 +37,7 @@ export default {
     async fetchPost () {
       await this.$apollo.query({
         query: GET_POST,
+        fetchPolicy: 'no-cache',
         variables: {
           id: parseInt(this.$route.params.id)
         }
@@ -54,9 +56,6 @@ export default {
       } else {
         this.edit = false
       }
-    },
-    cancel () {
-      console.log('cancel')
     },
     save () {
       console.log('save')
