@@ -45,7 +45,7 @@
       </ul>
 
       <div class="post__comment-form">
-        <CommentForm />
+        <CommentForm :id="post.id"/>
       </div>
 
     </div>

@@ -78,3 +78,14 @@ export const UPDATE = gql`
     }
   }
 `
+
+export const ADD_COMMENT = gql`
+  mutation ($postId: Int!, $content: String!) {
+    addComment(postId: $postId, content: $content) {
+      id
+      postId
+      content
+      createdAt
+    }
+  }
+`

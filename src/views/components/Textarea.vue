@@ -1,6 +1,6 @@
 <template>
   <textarea
-    class="textarea__tag"
+    class="textarea"
     :class="modifier"
     :id="name"
     :name="name"
@@ -16,28 +16,21 @@ export default { name: 'form-textarea',
 </script>
 
 <style lang="scss" scoped>
-.input {
+.textarea {
   display: block;
   width: 100%;
-}
-.textarea__label {
-  display: inline-block;
   font-family: $montserrat;
   font-weight: 300;
   font-size: 18px;
   letter-spacing: 0.1em;
-  margin-bottom: 5px;
   cursor: pointer;
-}
-.textarea__tag {
-  display: block;
-  width: 100%;
   box-sizing: border-box;
   border-radius: 0;
   border: 1px solid $color-black;
   padding: 5px 10px;
   height: 60px;
   outline: none;
+  margin-bottom: 5px;
 }
 //MODIFIER
 .textarea--error {
@@ -45,7 +38,6 @@ export default { name: 'form-textarea',
   color: $color-red;
 }
 .textarea--comment-form {
-  font-family: $montserrat;
   font-size: 19px;
   font-weight: 300;
   line-height: 1.65;

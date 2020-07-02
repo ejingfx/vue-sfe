@@ -6,14 +6,13 @@
     @submit.prevent="$emit('addComment'); submit($event)"
   >
     <div class="comment-form__block">
-{{ $v.comment }}
       <Textarea
         placeholder="Write Comment"
-        modifier="textarea--comment-form"
-        name="comment"
-        id="comment"
-        v-model="$v.comment.$model"
-        @blur="$v.form.comment.$touch()"
+        :modifier="formModifier($v.form.content)"
+        name="content"
+        id="content"
+        v-model.trim="$v.form.content.$model"
+        @blur="$v.form.content.$touch()"
       />
     </div>
 
@@ -31,31 +30,75 @@
 import Textarea from './Textarea'
 import Button from './Button'
 import { required } from 'vuelidate/lib/validators'
+import { ADD_COMMENT, GET_POST } from '../../graphql'
 
 export default {
   name: 'comment-form',
-  props: ['post'],
+  props: ['id'],
   components: {
     Textarea,
     Button
   },
   data () {
     return {
-      comment: {},
-      form: {}
+      form: {
+        postId: this.id,
+        content: ''
+      }
     }
   },
   validations: {
-    form: {},
-    comment: {
-      required
+    form: {
+      postId: { required },
+      content: { required }
+    }
+  },
+  watch: {
+    id () {
+      this.form.postId = this.id
     }
   },
   methods: {
+    formModifier (validation) {
+      return {
+        'textarea--comment-form textarea--error': validation.$error,
+        'textarea--comment-form textarea--dirty': validation.$dirty
+      }
+    },
+    addComment () {
+      this.$apollo.mutate({
+        mutation: ADD_COMMENT,
+        variables: {
+          postId: this.getForm.postId,
+          content: this.getForm.content
+        }
+      })
+        .then((res) => {
+          console.log('addComment', res.data)
+          this.updateStore()
+        })
+    },
+    updateStore () {
+      this.$apollo.query({
+        query: GET_POST,
+        variables: {
+          id: this.getForm.postId
+        }
+      })
+        .then((res) => {
+          console.log('updateStore', res.data.post)
+          this.$store.dispatch('UPDATE_POST', res.data.post)
+        })
+    },
     submit (e) {
       e.preventDefault()
-      console.log('comment', this.$v.comment.$invalid)
+      if (!this.$v.form.$invalid) {
+        this.addComment()
+      }
     }
+  },
+  computed: {
+    getForm () { return this.form }
   }
 }
 </script>
@@ -75,8 +118,4 @@ export default {
     text-align: right;
   }
 }
-.comment-form__ {}
-.comment-form__ {}
-.comment-form__ {}
-.comment-form__ {}
 </style>

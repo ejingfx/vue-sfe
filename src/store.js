@@ -27,6 +27,9 @@ export default new Vuex.Store({
     async ADD_POSTS (context, data) {
       context.commit('addPosts', await data)
     },
+    async UPDATE_POST (context, data) {
+      context.commit('updatePost', await data)
+    },
     async CREATE_POST (context, data) {
       context.commit('createPost', await data)
     },
@@ -50,6 +53,13 @@ export default new Vuex.Store({
     },
     createPost (state, payload) {
       state.posts.push(payload)
+    },
+    updatePost (state, payload) {
+      state.posts.filter(post => {
+        if (post.id === payload.id) {
+          post = payload
+        }
+      })
     },
     init (state, payload) {
       state.isAuth = payload.isAuth
