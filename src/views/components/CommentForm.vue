@@ -7,6 +7,7 @@
   >
     <div class="comment-form__block">
       <Textarea
+        class="textarea--comment-form"
         placeholder="Write Comment"
         :modifier="formModifier($v.form.content)"
         name="content"
@@ -61,8 +62,8 @@ export default {
   methods: {
     formModifier (validation) {
       return {
-        'textarea--comment-form textarea--error': validation.$error,
-        'textarea--comment-form textarea--dirty': validation.$dirty
+        'textarea--error': validation.$error,
+        'textarea--dirty': validation.$dirty
       }
     },
     async addComment () {

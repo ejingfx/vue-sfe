@@ -33,6 +33,10 @@ export default { name: 'form-textarea',
   margin-bottom: 5px;
 }
 //MODIFIER
+.textarea--dirty {
+  border-color: $color-black;
+  color: $color-black;
+}
 .textarea--error {
   border-color: $color-red;
   color: $color-red;
