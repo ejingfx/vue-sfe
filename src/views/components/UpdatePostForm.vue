@@ -4,19 +4,21 @@
       <button
         class="post__btn"
         type="button"
-        @click="$emit('save'); save()"
+        @click="save($event)"
       >
         <span class="post__btn-text">Save Post</span>
       </button>
       <button
         class="post__btn"
         type="button"
-        @click="$emit('toggle')"
+        @click="cancel($event)"
       >
         <span class="post__btn-text">Cancel</span>
       </button>
     </div>
-
+{{ post.title}}
+<br>
+{{ getForm.title}}
     <div class="post__heading clearfix">
       <time class="post__date" :datetime="post.createdAt | format_datetime">{{ post.createdAt | format_date }}</time>
       <h1
@@ -82,8 +84,8 @@
 <script>
 import CommentForm from './CommentForm'
 import Comment from './Comment'
-import { required } from 'vuelidate/lib/validators'
 import _ from 'lodash'
+import { required } from 'vuelidate/lib/validators'
 import { UPDATE_POST } from '../../graphql'
 
 export default {
@@ -96,15 +98,21 @@ export default {
   data () {
     return {
       preview: false,
-      form: {}
+      form: {},
+      temp: {}
+    }
+  },
+  watch: {
+    temp (newVal, oldVal) {
+      if (newVal && !oldVal) {
+        this.temp = Object.assign({}, this.post)
+      }
+      console.log(newVal, oldVal)
     }
   },
   validations: {
     form: {
-      id: {},
-      title: {
-        required
-      },
+      title: { required },
       content: {}
     }
   },
@@ -128,31 +136,42 @@ export default {
     updateField (e, field) {
       this.form[field] = e.target.textContent
     },
-    async save () {
+    async save (e) {
+      e.preventDefault()
       if (!this.$v.form.$invalid) {
         await this.$apollo.mutate({
           mutation: UPDATE_POST,
           variables: {
             post: {
-              id: this.getForm.id,
+              id: this.post.id,
               title: this.getForm.title,
               content: this.getForm.content,
               image: this.getForm.image
             }
           }
         })
-          .then((res) => { console.log(res) })
+          .then((res) => {
+            this.$emit('save')
+          })
           .catch((err) => { console.log(err) })
+      }
+    },
+    cancel (e) {
+      if (!_.isEqual(this.post, this.getForm)) {
+        const confirm = window.confirm('Are you sure you want to discard all changes?')
+        if (confirm) this.$emit('toggle')
+        return ''
       }
     }
   },
   computed: {
     getForm () { return this.form },
+    getTemp () { return this.temp },
     getPreview () { return this.preview },
     getUpload () { return this.upload }
   },
-  created () {
-    this.form = this.post
+  mounted () {
+    this.form = Object.assign({}, this.post)
   }
 }
 </script>

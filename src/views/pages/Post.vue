@@ -1,6 +1,6 @@
 <template>
   <div class="post">
-    <Breadcrumb :slugs="getSlugs"/>
+    <Breadcrumb :url="getPost.id" :text="getPost.title"/>
 
     <div class="post__body">
       <div class="container">
@@ -27,6 +27,7 @@
 import Breadcrumb from '../components/Breadcrumb'
 import PostForm from '../components/PostForm'
 import PostView from '../components/PostView'
+import _ from 'lodash'
 import { GET_POST } from '../../graphql'
 import { mapGetters } from 'vuex'
 
@@ -40,9 +41,13 @@ export default {
   data () {
     return {
       edit: false,
-      init: {},
       post: {},
-      slugs: []
+      temp: {}
+    }
+  },
+  watch: {
+    getIsAuth (newVal, oldVal) {
+      if (oldVal && !newVal) this.edit = false
     }
   },
   methods: {
@@ -56,7 +61,6 @@ export default {
       })
         .then((res) => {
           this.post = res.data.post
-          this.slugs = [{ url: res.data.post.id, text: res.data.post.title }]
         })
         .catch((err) => {
           console.log(err)
@@ -65,22 +69,28 @@ export default {
     toggle () {
       if (!this.edit) {
         this.edit = true
+        this.temp = Object.assign({}, this.getPost)
       } else {
         this.edit = false
+        if (!_.isEqual(this.getTemp, this.getPost)) this.post = Object.assign({}, this.getTemp)
       }
     },
     save () {
-      console.log('save')
+      this.toggle()
+      this.fetchPost()
     }
   },
   computed: {
     ...mapGetters(['getIsAuth']),
     getEdit () { return this.edit },
     getPost () { return this.post },
-    getSlugs () { return this.slugs }
+    getTemp () { return this.temp }
   },
   created () {
     this.fetchPost()
+  },
+  mounted () {
+    this.temp = Object.assign({}, this.getPost)
   }
 }
 </script>

@@ -6,7 +6,9 @@
       @show="showForm()"
       @close="closeForm()"
     />
+
     <router-view />
+
     <Footer />
 
     <Modal

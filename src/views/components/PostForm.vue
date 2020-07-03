@@ -4,7 +4,7 @@
       class="post__update"
       v-if="edit"
     >
-      <UpdatePostForm :post="post" @toggle="$emit('toggle')" />
+      <UpdatePostForm :post="post" @toggle="$emit('toggle')" @save="$emit('save')" />
     </div>
     <div
       class="post__create"

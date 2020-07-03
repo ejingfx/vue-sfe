@@ -7,17 +7,9 @@
             <span class="breadcrumb__text">HOME</span>
           </a>
         </li>
-        <li
-          class="breadcrumb__item"
-          v-for="(slug, i) in slugs"
-          :key="i"
-        >
-          <a
-            class="breadcrumb__link"
-            :class="(slugs.length - 1) === i ? 'breadcrumb__link--last' : ''"
-            :href="slug.url"
-          >
-            <span class="breadcrumb__text">{{ slug.text }}</span>
+        <li class="breadcrumb__item">
+          <a class="breadcrumb__link breadcrumb__link--last" :href="url">
+            <span class="breadcrumb__text">{{ text }}</span>
           </a>
         </li>
       </ol>
@@ -28,7 +20,7 @@
 <script>
 export default {
   name: 'breadcrumb',
-  props: ['slugs']
+  props: ['text', 'url']
 }
 </script>
 

@@ -10,7 +10,8 @@
 </template>
 
 <script>
-export default { name: 'form-textarea',
+export default {
+  name: 'form-textarea',
   props: ['modifier', 'name', 'value']
 }
 </script>
@@ -31,6 +32,7 @@ export default { name: 'form-textarea',
   height: 60px;
   outline: none;
   margin-bottom: 5px;
+  resize: none;
 }
 //MODIFIER
 .textarea--dirty {

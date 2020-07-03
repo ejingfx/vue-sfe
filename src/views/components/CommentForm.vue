@@ -78,6 +78,9 @@ export default {
           this.$emit('addComment')
           this.form.content = ''
         })
+        .catch((err) => {
+          console.log(err)
+        })
     },
     submit (e) {
       e.preventDefault()
