@@ -4,8 +4,19 @@
 
     <div class="post__body">
       <div class="container">
-        <PostView v-if="!getEdit" :post="getPost" @toggle="toggle()" @addComment="fetchPost()" />
-        <PostForm v-else :post="getPost" @toggle="toggle()" @addComment="fetchPost()" @save="save()" @cancel="edit = false"/>
+        <PostView v-if="!getEdit"
+          :post="getPost"
+          @toggle="toggle()"
+          @addComment="fetchPost()"
+        />
+        <PostForm v-else-if="getEdit && getIsAuth"
+          :edit="getEdit"
+          :post="getPost"
+          @toggle="toggle()"
+          @addComment="fetchPost()"
+          @save="save()"
+          @cancel="edit = false"
+        />
       </div>
     </div>
 
@@ -17,6 +28,7 @@ import Breadcrumb from '../components/Breadcrumb'
 import PostForm from '../components/PostForm'
 import PostView from '../components/PostView'
 import { GET_POST } from '../../graphql'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'post',
@@ -62,6 +74,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['getIsAuth']),
     getEdit () { return this.edit },
     getPost () { return this.post },
     getSlugs () { return this.slugs }

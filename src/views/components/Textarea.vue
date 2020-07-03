@@ -63,4 +63,27 @@ export default { name: 'form-textarea',
   letter-spacing: 0.1em;
   min-height: 394px;
 }
+.textarea--title {
+  font-size: 40px;
+  font-weight: 600;
+  min-height: 150px;
+  padding: 12px 20px;
+  line-height: 1.6;
+
+  &::placeholder {
+    font-size: 40px;
+    font-weight: 600;
+    color: transparentize($color-black, 0.5);
+  }
+}
+.textarea--new-form {
+  min-height: 394px;
+  padding: 18px 20px;
+
+  &::placeholder {
+    font-size: 18px;
+    font-weight: 300;
+    color: $color-black;
+  }
+}
 </style>

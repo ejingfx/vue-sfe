@@ -109,7 +109,6 @@ export default {
                 token: res.data.authenticate
               }
             }
-            console.log('', res.data)
             ls.setItem('sfe', JSON.stringify(data))
             this.$store.dispatch('AUTHENTICATE', data)
             this.$emit('close')
@@ -126,44 +125,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.form {
-  display: block;
-}
-.form__container {
-  display: block;
-  margin: 0 auto;
-  max-width: 460px;
-}
-.form__block {
-  display: block;
-  text-align: left;
-  &:first-child {
-    margin-bottom: 37px;
-  }
-  &:not(:last-child) {
-    margin-bottom: 20px;
-  }
-}
-.form__info {
-  display: block;
-  font-family: $montserrat;
-  font-size: 18px;
-  letter-spacing: 0.1em;
-  margin-top: 36px;
-  text-align: center;
-
-  strong {
-    text-decoration: none;
-    font-weight: 700;
-    color: $color-black;
-    transition: color $duration $easing;
-    cursor: pointer;
-
-    &:hover {
-      color: $color-black-hover;
-    }
-  }
-}
-</style>

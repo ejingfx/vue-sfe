@@ -100,7 +100,7 @@ export default {
   display: block;
 
   &:not(:last-child) {
-    padding-bottom: 50px;
+    padding-bottom: 35px;
   }
 
   &:last-child {

@@ -62,7 +62,7 @@ export const REGISTER = gql`
   }
 `
 
-export const UPDATE = gql`
+export const UPDATE_POST = gql`
   mutation ($post: PostInput) {
     updatePost(post: $post) {
       id
@@ -86,6 +86,24 @@ export const ADD_COMMENT = gql`
       postId
       content
       createdAt
+    }
+  }
+`
+
+export const ADD_POST = gql`
+  mutation ($post: PostInput) {
+    addPost(post: $post) {
+      id
+      title
+      content
+      image
+      createdAt
+      comments {
+        id
+        postId
+        content
+        createdAt
+      }
     }
   }
 `
