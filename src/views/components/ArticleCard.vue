@@ -32,7 +32,6 @@ export default {
 <style lang="scss" scoped>
 .article-card {
   display: block;
-  vertical-align: top;
   border: 1px solid $color-black;
 
 }

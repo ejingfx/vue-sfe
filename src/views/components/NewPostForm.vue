@@ -80,6 +80,7 @@ export default {
         const confirm = window.confirm('Are you sure you want to discard all changes?')
         if (confirm) this.$router.push({ name: 'home' })
       } else {
+        console.log('adf')
         this.$router.push({ name: 'home' })
       }
     },

@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 export default {
   methods: {
     showPlaceholder (image, background = true) {
@@ -6,20 +8,14 @@ export default {
 
       switch (background) {
         case true: {
-          if (typeof image === 'undefined' || image === '') return placeholder
-          return image
+          if (_.isNull(image)) return placeholder
+          return { backgroundImage: `url(${image})` }
         }
         default: {
-          if (typeof image === 'undefined' || image === '') return noImage
+          if (_.isNull(image)) return noImage
           return image
         }
       }
     }
-    // formModifier (validation) {
-    //   return {
-    //     'input--error': validation.$error,
-    //     'input--dirty': validation.$dirty
-    //   }
-    // }
   }
 }

@@ -6,6 +6,7 @@ export const GET_POSTS = gql`
       id
       title
       createdAt
+      image
       comments {
         id
         postId
@@ -22,6 +23,7 @@ export const GET_PAGINATED_POSTS = gql`
       id
       title
       createdAt
+      image
       comments {
         id
         postId

@@ -37,24 +37,20 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log(getIsAuth())
-  if (to.name === 'post-detail' && _.isNaN(parseInt(to.params.id))) next(routes[0])
-  else next()
+  init()
+    .then(() => {
+      if (to.name === 'new-post' && !store.getters.getIsAuth) next(routes[0])
+      else if (to.name === 'post-detail' && isNaN(to.params.id)) next(routes[0])
+      else next()
+    })
 })
 
-async function getIsAuth () {
+async function init () {
   if (_.isEmpty(ls.getItem('sfe'))) {
     ls.setItem('sfe', await JSON.stringify({ isAuth: false, user: {} }))
   } else {
-    console.log('dispatch')
     store.dispatch('INIT', await JSON.parse(ls.getItem('sfe')))
   }
-
-  let promise = await new Promise((resolve) => {
-    resolve(store.getters.isAuth)
-  })
-
-  return promise()
 }
 
 export default router

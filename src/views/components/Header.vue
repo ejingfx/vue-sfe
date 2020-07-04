@@ -51,6 +51,7 @@ export default {
   },
   methods: {
     logout () {
+      if (this.$route.name === 'new-post') this.$router.push({ name: 'home' })
       const payload = { isAuth: false, user: {} }
       this.$store.dispatch('LOGOUT', payload)
       this.btnText = 'LOGIN'
