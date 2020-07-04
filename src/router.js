@@ -47,9 +47,9 @@ router.beforeEach((to, from, next) => {
 
 async function init () {
   if (_.isEmpty(ls.getItem('sfe'))) {
-    ls.setItem('sfe', await JSON.stringify({ isAuth: false, user: {} }))
+    ls.setItem('sfe', JSON.stringify({ isAuth: false, user: {} }))
   } else {
-    store.dispatch('INIT', await JSON.parse(ls.getItem('sfe')))
+    store.dispatch('INIT', JSON.parse(ls.getItem('sfe')))
   }
 }
 

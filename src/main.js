@@ -11,13 +11,13 @@ import { ApolloLink } from 'apollo-link'
 import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import './filters'
-const ls = window.localStorage
 
 const httpLink = new HttpLink({
   uri: process.env.VUE_APP_API_URL
 })
 
 const authLink = new ApolloLink((operation, forward) => {
+  const ls = window.localStorage
   const token = JSON.parse(ls.getItem('sfe')).user.token
   // console.log('token', token, operation)
   operation.setContext({
