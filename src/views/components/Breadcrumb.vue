@@ -48,6 +48,7 @@ export default {
   font-size: 16px;
   color: $color-black;
   letter-spacing: 0.1em;
+  line-height: 1;
 }
 .breadcrumb__item:not(:last-child) {
   padding-right: 38px;

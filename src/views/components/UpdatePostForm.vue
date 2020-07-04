@@ -15,12 +15,11 @@
       >
         <span class="post__btn-text">Cancel</span>
       </button>
-    </div>
-{{ post.title}}
-<br>
-{{ getForm.title}}
-    <div class="post__heading clearfix">
+
       <time class="post__date" :datetime="post.createdAt | format_datetime">{{ post.createdAt | format_date }}</time>
+    </div>
+
+    <div class="post__heading clearfix">
       <h1
         class="post__title post__title--edit"
         contenteditable
@@ -30,12 +29,14 @@
         @blur="$v.form.title.$touch()"
       >{{ post.title }}</h1>
     </div>
-    <!-- <div -->
-    <!--   class="post__image" -->
-    <!--   v&#45;if="!isNull(post.image)" -->
-    <!-- > -->
-    <!--   <div :style="{ backgroundImage: `url(${post.image})` }"></div> -->
-    <!-- </div> -->
+
+    <div
+      class="post__image"
+      v-if="!isNull(post.image)"
+    >
+      <div :style="{ backgroundImage: `url(${post.image})` }"></div>
+    </div>
+
     <div class="post__upload">
       <label for="upload" class="upload">
         <input class="upload__input" type="file" accept="image/*" id="upload" name="upload" @change="fileChange($event)">
@@ -160,7 +161,8 @@ export default {
       if (!_.isEqual(this.post, this.getForm)) {
         const confirm = window.confirm('Are you sure you want to discard all changes?')
         if (confirm) this.$emit('toggle')
-        return ''
+      } else {
+        this.$emit('toggle')
       }
     }
   },

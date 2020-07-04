@@ -11,10 +11,12 @@
       <button
         class="post__btn"
         type="button"
-        @click="$emit('toggle')"
+        @click="cancel($event)"
       >
         <span class="post__btn-text">Cancel</span>
       </button>
+
+      <time class="post__date" :datetime="new Date() | format_datetime">{{ new Date() | format_date }}</time>
     </div>
 
     <div class="post__form">
@@ -25,7 +27,6 @@
         @submit.prevent="submit($event)"
       >
         <div class="form__block">
-          <time class="post__date" :datetime="new Date() | format_datetime">{{ new Date() | format_date }}</time>
           <Title
             placeholder="Title"
             modifier="textarea--title"
@@ -48,6 +49,7 @@
 
 <script>
 import Textarea from '../components/Textarea'
+import _ from 'lodash'
 import { required } from 'vuelidate/lib/validators'
 import { ADD_POST } from '../../graphql'
 
@@ -62,8 +64,7 @@ export default {
       form: {
         title: '',
         content: '',
-        image: '',
-        comments: []
+        image: ''
       }
     }
   },
@@ -74,31 +75,33 @@ export default {
     }
   },
   methods: {
+    cancel (e) {
+      if (!_.isEmpty(this.getForm.title) || !_.isEmpty(this.getForm.content)) {
+        const confirm = window.confirm('Are you sure you want to discard all changes?')
+        if (confirm) this.$router.push({ name: 'home' })
+      } else {
+        this.$router.push({ name: 'home' })
+      }
+    },
     reset () {
       this.form = {
         title: '',
         content: '',
-        image: '',
-        comments: []
+        image: ''
       }
     },
     async save (e) {
       e.preventDefault()
       if (!this.$v.form.$invalid) {
-        console.log('submit', this.getForm)
         await this.$apollo.mutate({
           mutation: ADD_POST,
           variables: {
-            post: {
-              title: 'this title',
-              content: 'this content',
-              image: ''
-            }
+            post: this.getForm
           }
         })
           .then((res) => {
-            console.log('posted!', res.data)
-            this.reset()
+            const params = { params: { id: res.data.addPost.id } }
+            this.$router.push({ name: 'post-detail', ...params })
           })
           .catch((err) => {
             console.log(err)
@@ -111,8 +114,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.post__form {
-}
-</style>

@@ -1,3 +1,9 @@
+.post {
+  display: block;
+}
+.post__body {
+  padding-top: 62px;
+}
 .post__image {
   display: block;
 
@@ -10,6 +16,10 @@
   }
 }
 .post__date {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  text-align: left;
   font-family: $montserrat;
   font-weight: 400;
   font-size: 20px;
@@ -20,14 +30,12 @@
   padding: 50px 0 125px;
   border-bottom: 1px solid $color-grey;
 }
-.post__comment-form {
-  padding-bottom: 150px;
-}
 .post__actions {
+  position: relative;
   display: block;
-  float: right;
-  min-height: 30px;
+  min-height: 82px;
   text-align: right;
+  width: 100%;
 }
 .post__btn {
   display: inline-block;
@@ -44,7 +52,7 @@
   color: $color-black;
 }
 .post__heading {
-  padding-top: 60px;
+  padding-top: 0;
   padding-bottom: 35px;
 }
 .post__title {
@@ -54,6 +62,11 @@
   letter-spacing: 0.1em;
   margin-top: 30px;
 }
+.post__view,
+.post__create-form,
+.post__update-form {
+  padding-bottom: 150px;
+} 
 .post__footer-heading {
   padding-top: 40px;
   padding-bottom: 20px;

@@ -1,6 +1,6 @@
 <template>
   <div class="post">
-    <Breadcrumb :slugs="[{ url: 'new', text: 'Create New Post' }]"/>
+    <Breadcrumb :url="'text'" :text="'Create New Post'" />
 
     <div class="post__body">
       <div class="container">

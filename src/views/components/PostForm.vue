@@ -1,17 +1,12 @@
 <template>
   <div class="post__wrap">
-    <div
-      class="post__update"
+    <UpdatePostForm
       v-if="edit"
-    >
-      <UpdatePostForm :post="post" @toggle="$emit('toggle')" @save="$emit('save')" />
-    </div>
-    <div
-      class="post__create"
-      v-else
-    >
-      <NewPostForm />
-    </div>
+      :post="post"
+      @toggle="$emit('toggle')"
+      @save="$emit('save')"
+    />
+    <NewPostForm v-else />
   </div>
 </template>
 
@@ -28,14 +23,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.post__create {
-  padding-top: 120px;
-  padding-bottom: 0;
-}
-.post__update {
-  padding-top: 0;
-  padding-bottom: 0;
-}
-</style>

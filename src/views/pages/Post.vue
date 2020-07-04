@@ -1,6 +1,6 @@
 <template>
   <div class="post">
-    <Breadcrumb :url="getPost.id" :text="getPost.title"/>
+    <Breadcrumb :url="getPost.id" :text="getBreadcrumbText()"/>
 
     <div class="post__body">
       <div class="container">
@@ -51,6 +51,10 @@ export default {
     }
   },
   methods: {
+    getBreadcrumbText () {
+      if (this.getEdit) return this.getPost.title
+      return this.getPost.title
+    },
     async fetchPost () {
       await this.$apollo.query({
         query: GET_POST,
@@ -94,35 +98,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.post {
-  display: block;
-}
-/* .post__container {} */
-.post__image {
-  display: block;
-
-  div {
-    position: relative;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    padding-top: 48.21%
-  }
-}
-.post__date {
-  font-family: $montserrat;
-  font-weight: 400;
-  font-size: 20px;
-  letter-spacing: 0.2em;
-}
-.post__content {
-  line-height: 2.5;
-  padding: 50px 0 125px;
-  border-bottom: 1px solid $color-grey;
-}
-.post__body {
-  padding-top: 60px;
-}
-</style>
