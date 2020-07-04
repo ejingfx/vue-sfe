@@ -39,8 +39,8 @@ import Footer from './views/components/Footer'
 import Modal from './views/components/Modal'
 import LoginForm from './views/components/LoginForm'
 import RegisterForm from './views/components/RegisterForm'
-import _ from 'lodash'
-const ls = window.localStorage
+// import _ from 'lodash'
+// const ls = window.localStorage
 
 export default {
   name: 'app',
@@ -66,13 +66,17 @@ export default {
       if (!this.showLoginForm) this.showLoginForm = true
     }
   },
-  async created () {
-    if (_.isEmpty(ls.getItem('sfe'))) {
-      ls.setItem('sfe', await JSON.stringify({ isAuth: false, user: {} }))
-    } else {
-      this.$store.dispatch('INIT', await JSON.parse(ls.getItem('sfe')))
-    }
+  created () {
+    console.log('app')
   },
+  // async created () {
+  //   if (_.isEmpty(ls.getItem('sfe'))) {
+  //     ls.setItem('sfe', await JSON.stringify({ isAuth: false, user: {} }))
+  //   } else {
+  //     console.log('dispatch')
+  //     this.$store.dispatch('INIT', await JSON.parse(ls.getItem('sfe')))
+  //   }
+  // },
   computed: {
     getShowLoginForm () { return this.showLoginForm },
     getShowRegisterForm () { return this.showRegisterForm }
